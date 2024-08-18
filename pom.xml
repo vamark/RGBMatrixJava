@@ -47,7 +47,7 @@
                     </execution>
                     <execution>
                         <id>clean-headers</id>
-                        <phase>compile</phase>
+                        <phase>clean</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>

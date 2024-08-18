@@ -8,3 +8,6 @@ target/
 
 ### Mac OS ###
 .DS_Store
+
+### Generated headers ###
+/src/main/cpp/*.h
