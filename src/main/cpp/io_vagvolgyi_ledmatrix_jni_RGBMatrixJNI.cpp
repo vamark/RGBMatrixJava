@@ -1,20 +1,18 @@
 #include "io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI.h"
 #include "led-matrix.h"
+#include "converter/options_converter.h"
+#include "converter/runtime_options_converter.h"
 
 using rgb_matrix::RGBMatrix;
 
 RGBMatrix *matrix = nullptr;
 
-void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_initMatrix(JNIEnv *, jclass) {
-    RGBMatrix::Options my_defaults;
-    my_defaults.hardware_mapping = "adafruit-hat-pwm";
-    my_defaults.chain_length = 1;
-    my_defaults.cols = 64;
-    my_defaults.rows = 64;
-    my_defaults.led_rgb_sequence = "BGR";
+void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_initMatrix(JNIEnv *env, jclass, jobject options, jobject runtimeOptions) {
+    OptionsConverter optionsConverter(env);
+    RuntimeOptionsConverter runtimeOptionsConverter(env);
 
-    rgb_matrix::RuntimeOptions runtime_defaults;
-    runtime_defaults.drop_privileges = 1;
+    rgb_matrix::RGBMatrix::Options my_defaults = optionsConverter.convert(options);
+    rgb_matrix::RuntimeOptions runtime_defaults = runtimeOptionsConverter.convert(runtimeOptions);
 
     matrix = RGBMatrix::CreateFromOptions(my_defaults, runtime_defaults);
 }

@@ -1,10 +1,23 @@
 package io.vagvolgyi.ledmatrix;
 
 import io.vagvolgyi.ledmatrix.jni.RGBMatrixJNI;
+import io.vagvolgyi.ledmatrix.jni.model.Options;
+import io.vagvolgyi.ledmatrix.jni.model.RuntimeOptions;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        RGBMatrixJNI.initMatrix();
+        Options options = new Options()
+                .hardwareMapping("adafruit-hat-pwm")
+                .chainLength(1)
+                .cols(64)
+                .rows(64)
+                .ledRgbSequence("BGR");
+
+        RuntimeOptions runtimeOptions = new RuntimeOptions()
+                .dropPrivileges(1);
+
+        RGBMatrixJNI.initMatrix(options, runtimeOptions);
+
         byte[][] matrix = new byte[5][19];
         matrix[0] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1};
         matrix[1] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
