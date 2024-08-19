@@ -24,8 +24,26 @@ void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_destroyMatrix(JNIEnv *
     }
 }
 
+JNIEXPORT void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_setBrightness(JNIEnv *, jclass, jint brightness) {
+    if (matrix != nullptr) {
+        matrix->SetBrightness(brightness);
+    }
+}
+
 void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_setPixel(JNIEnv *, jclass, jint row, jint col, jint r, jint g, jint b) {
     if (matrix != nullptr) {
         matrix->SetPixel(row, col, r, g, b);
+    }
+}
+
+JNIEXPORT void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_fill(JNIEnv *, jclass, jint r, jint g, jint b) {
+    if (matrix != nullptr) {
+        matrix->Fill(r, g, b);
+    }
+}
+
+JNIEXPORT void JNICALL Java_io_vagvolgyi_ledmatrix_jni_RGBMatrixJNI_clear(JNIEnv *, jclass) {
+    if (matrix != nullptr) {
+        matrix->Clear();
     }
 }

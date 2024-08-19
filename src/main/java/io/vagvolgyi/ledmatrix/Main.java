@@ -17,14 +17,35 @@ public class Main {
                 .dropPrivileges(1);
 
         RGBMatrixJNI.initMatrix(options, runtimeOptions);
+        RGBMatrixJNI.setBrightness(50);
+        RGBMatrixJNI.fill(0, 0, 122);
 
-        byte[][] matrix = new byte[5][19];
-        matrix[0] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1};
-        matrix[1] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
-        matrix[2] = new byte[] {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
-        matrix[3] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0};
-        matrix[4] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1};
+        byte[][] helloMatrix = new byte[5][19];
+        helloMatrix[0] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};
+        helloMatrix[1] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+        helloMatrix[2] = new byte[] {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+        helloMatrix[3] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+        helloMatrix[4] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0};
 
+        showMatrix(helloMatrix);
+        Thread.sleep(2000);
+        RGBMatrixJNI.clear();
+        RGBMatrixJNI.fill(122, 0, 0);
+
+        byte[][] worldMatrix = new byte[5][19];
+        worldMatrix[0] = new byte[] {1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1};
+        worldMatrix[1] = new byte[] {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
+        worldMatrix[2] = new byte[] {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
+        worldMatrix[3] = new byte[] {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0};
+        worldMatrix[4] = new byte[] {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1};
+
+        showMatrix(worldMatrix);
+        Thread.sleep(2000);
+
+        RGBMatrixJNI.destroyMatrix();
+    }
+
+    private static void showMatrix(byte[][] matrix) throws InterruptedException {
         for (int y = 0; y < matrix.length; y++) {
             for(int x = 0; x < matrix[y].length; x++) {
                 if(matrix[y][x] == 1) {
@@ -33,8 +54,5 @@ public class Main {
                 }
             }
         }
-
-        Thread.sleep(5000);
-        RGBMatrixJNI.destroyMatrix();
     }
 }
