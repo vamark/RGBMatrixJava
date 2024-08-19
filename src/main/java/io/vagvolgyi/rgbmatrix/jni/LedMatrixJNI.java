@@ -1,13 +1,9 @@
-package io.vagvolgyi.ledmatrix.jni;
+package io.vagvolgyi.rgbmatrix.jni;
 
-import io.vagvolgyi.ledmatrix.jni.model.Options;
-import io.vagvolgyi.ledmatrix.jni.model.RuntimeOptions;
+import io.vagvolgyi.rgbmatrix.jni.model.Options;
+import io.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
 
-public class RGBMatrixJNI {
-    static {
-        System.loadLibrary("rgbmatrixjni");
-    }
-
+public class LedMatrixJNI {
     public static native void initMatrix(Options options, RuntimeOptions runtimeOptions);
     public static native void destroyMatrix();
     public static native void setBrightness(int brightness);

@@ -1,4 +1,4 @@
-package io.vagvolgyi.ledmatrix.jni.model;
+package io.vagvolgyi.rgbmatrix.jni.model;
 
 public class RuntimeOptions {
     private Integer gpioSlowdown;

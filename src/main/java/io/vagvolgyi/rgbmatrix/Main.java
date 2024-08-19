@@ -1,10 +1,14 @@
-package io.vagvolgyi.ledmatrix;
+package io.vagvolgyi.rgbmatrix;
 
-import io.vagvolgyi.ledmatrix.jni.RGBMatrixJNI;
-import io.vagvolgyi.ledmatrix.jni.model.Options;
-import io.vagvolgyi.ledmatrix.jni.model.RuntimeOptions;
+import io.vagvolgyi.rgbmatrix.jni.LedMatrixJNI;
+import io.vagvolgyi.rgbmatrix.jni.model.Options;
+import io.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
 
 public class Main {
+    static {
+        System.loadLibrary("rgbmatrixjni");
+    }
+
     public static void main(String[] args) throws InterruptedException {
         Options options = new Options()
                 .hardwareMapping("adafruit-hat-pwm")
@@ -16,9 +20,9 @@ public class Main {
         RuntimeOptions runtimeOptions = new RuntimeOptions()
                 .dropPrivileges(1);
 
-        RGBMatrixJNI.initMatrix(options, runtimeOptions);
-        RGBMatrixJNI.setBrightness(50);
-        RGBMatrixJNI.fill(0, 0, 122);
+        LedMatrixJNI.initMatrix(options, runtimeOptions);
+        LedMatrixJNI.setBrightness(50);
+        LedMatrixJNI.fill(0, 0, 122);
 
         byte[][] helloMatrix = new byte[5][19];
         helloMatrix[0] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};
@@ -29,8 +33,8 @@ public class Main {
 
         showMatrix(helloMatrix);
         Thread.sleep(2000);
-        RGBMatrixJNI.clear();
-        RGBMatrixJNI.fill(122, 0, 0);
+        LedMatrixJNI.clear();
+        LedMatrixJNI.fill(122, 0, 0);
 
         byte[][] worldMatrix = new byte[5][19];
         worldMatrix[0] = new byte[] {1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1};
@@ -42,14 +46,14 @@ public class Main {
         showMatrix(worldMatrix);
         Thread.sleep(2000);
 
-        RGBMatrixJNI.destroyMatrix();
+        LedMatrixJNI.destroyMatrix();
     }
 
     private static void showMatrix(byte[][] matrix) throws InterruptedException {
         for (int y = 0; y < matrix.length; y++) {
             for(int x = 0; x < matrix[y].length; x++) {
                 if(matrix[y][x] == 1) {
-                    RGBMatrixJNI.setPixel(x, y, 255, 255, 255);
+                    LedMatrixJNI.setPixel(x, y, 255, 255, 255);
                     Thread.sleep(100);
                 }
             }

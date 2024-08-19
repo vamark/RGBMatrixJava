@@ -5,7 +5,7 @@ LIBS = -lrgbmatrix
 CXX = g++
 CXXFLAGS = -c -fPIC -Wall -std=c++17
 LDFLAGS = -shared -fPIC -lc
-OUTPUT_DIR = ../../../target/jni-wrappers
+OUTPUT_DIR = ../../../target/jni-wrapper
 TARGET = $(OUTPUT_DIR)/librgbmatrixjni.so
 OBJECTS = $(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(SOURCES))
 SOURCES = $(wildcard *.cpp converter/*.cpp)
