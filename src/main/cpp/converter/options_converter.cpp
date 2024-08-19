@@ -8,10 +8,9 @@ rgb_matrix::RGBMatrix::Options OptionsConverter::convert(jobject options) {
     FieldReader optionsReader(env, options);
     rgb_matrix::RGBMatrix::Options opts;
 
-    std::optional<std::string> hardwareMappingOpt = optionsReader.readString("hardwareMapping");
+    std::optional<const char*> hardwareMappingOpt = optionsReader.readString("hardwareMapping");
     if (hardwareMappingOpt.has_value()) {
-        hardwareMapping = hardwareMappingOpt.value();
-        opts.hardware_mapping = hardwareMapping.c_str();
+        opts.hardware_mapping = hardwareMappingOpt.value();
     }
 
     std::optional<int> rowsOpt = optionsReader.readInt("rows");
@@ -84,22 +83,19 @@ rgb_matrix::RGBMatrix::Options OptionsConverter::convert(jobject options) {
         opts.inverse_colors = inverseColorsOpt.value();
     }
 
-    std::optional<std::string> ledRgbSequenceOpt = optionsReader.readString("ledRgbSequence");
+    std::optional<const char*> ledRgbSequenceOpt = optionsReader.readString("ledRgbSequence");
     if (ledRgbSequenceOpt.has_value()) {
-        ledRgbSequence = ledRgbSequenceOpt.value();
-        opts.led_rgb_sequence = ledRgbSequence.c_str();
+        opts.led_rgb_sequence = ledRgbSequenceOpt.value();
     }
 
-    std::optional<std::string> pixelMapperConfigOpt = optionsReader.readString("pixelMapperConfig");
+    std::optional<const char*> pixelMapperConfigOpt = optionsReader.readString("pixelMapperConfig");
     if (pixelMapperConfigOpt.has_value()) {
-        pixelMapperConfig = pixelMapperConfigOpt.value();
-        opts.pixel_mapper_config = pixelMapperConfig.c_str();
+        opts.pixel_mapper_config = pixelMapperConfigOpt.value();
     }
 
-    std::optional<std::string> panelTypeOpt = optionsReader.readString("panelType");
+    std::optional<const char*> panelTypeOpt = optionsReader.readString("panelType");
     if (panelTypeOpt.has_value()) {
-        panelType = panelTypeOpt.value();
-        opts.panel_type = panelType.c_str();
+        opts.panel_type = panelTypeOpt.value();
     }
 
     std::optional<int> limitRefreshRateHzOpt = optionsReader.readInt("limitRefreshRateHz");

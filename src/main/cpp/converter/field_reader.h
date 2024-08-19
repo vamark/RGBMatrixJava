@@ -14,7 +14,7 @@ private:
 
 public:
     FieldReader(JNIEnv *env, jobject jObj);
-    std::optional<std::string> readString(const char* fieldName);
+    std::optional<const char*> readString(const char* fieldName);
     std::optional<int> readInt(const char* fieldName);
     std::optional<bool> readBoolean(const char* fieldName);
 };

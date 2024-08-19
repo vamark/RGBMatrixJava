@@ -28,16 +28,14 @@ rgb_matrix::RuntimeOptions RuntimeOptionsConverter::convert(jobject runtimeOptio
         runtime_defaults.do_gpio_init = doGpioInitOpt.value();
     }
 
-    std::optional<std::string> dropPrivUserOpt = runtimeOptionsReader.readString("dropPrivUser");
+    std::optional<const char*> dropPrivUserOpt = runtimeOptionsReader.readString("dropPrivUser");
     if (dropPrivUserOpt.has_value()) {
-        dropPrivUser = dropPrivUserOpt.value();
-        runtime_defaults.drop_priv_user = dropPrivUser.c_str();
+        runtime_defaults.drop_priv_user = dropPrivUserOpt.value();
     }
 
-    std::optional<std::string> dropPrivGroupOpt = runtimeOptionsReader.readString("dropPrivGroup");
+    std::optional<const char*> dropPrivGroupOpt = runtimeOptionsReader.readString("dropPrivGroup");
     if (dropPrivGroupOpt.has_value()) {
-        dropPrivGroup = dropPrivGroupOpt.value();
-        runtime_defaults.drop_priv_group = dropPrivGroup.c_str();
+        runtime_defaults.drop_priv_group = dropPrivGroupOpt.value();
     }
 
     return runtime_defaults;

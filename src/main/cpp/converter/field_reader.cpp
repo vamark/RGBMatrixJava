@@ -6,16 +6,13 @@ FieldReader::FieldReader(JNIEnv *env, jobject jObj) {
     this->objClass = env->GetObjectClass(jObj);
 }
 
-std::optional<std::string> FieldReader::readString(const char* fieldName) {
+std::optional<const char*> FieldReader::readString(const char* fieldName) {
     jfieldID fieldId = env->GetFieldID(objClass, fieldName, "Ljava/lang/String;");
     jstring jStr = (jstring) env->GetObjectField(jObj, fieldId);
 
     if (jStr != nullptr) {
         const char *cStr = env->GetStringUTFChars(jStr, nullptr);
-        std::string stdStr(cStr);
-        env->ReleaseStringUTFChars(jStr, cStr);
-
-        return stdStr;
+        return cStr;
     }
 
     return std::nullopt;
