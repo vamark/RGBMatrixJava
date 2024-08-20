@@ -1,5 +1,6 @@
 package io.vagvolgyi.rgbmatrix;
 
+import io.vagvolgyi.rgbmatrix.jni.FontJNI;
 import io.vagvolgyi.rgbmatrix.jni.GraphicsJNI;
 import io.vagvolgyi.rgbmatrix.jni.LedMatrixJNI;
 import io.vagvolgyi.rgbmatrix.jni.model.Options;
@@ -15,6 +16,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        FontJNI font5x8 = new FontJNI(getFontPath("5x8"));
+        FontJNI font8x13 = new FontJNI(getFontPath("8x13"));
+
         Options options = new Options()
                 .hardwareMapping("adafruit-hat-pwm")
                 .chainLength(1)
@@ -23,7 +27,7 @@ public class Main {
                 .ledRgbSequence("BGR");
 
         RuntimeOptions runtimeOptions = new RuntimeOptions()
-                .dropPrivileges(1);
+                .dropPrivileges(0);
 
         LedMatrixJNI.initMatrix(options, runtimeOptions);
         LedMatrixJNI.setBrightness(60);
@@ -40,8 +44,7 @@ public class Main {
         helloMatrix[4] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0};
 
         LedMatrixJNI.setBrightness(100);
-        int yLoc = GraphicsJNI.drawText(getFontPath("5x8"), 20, 59, MAGENTA, "Test");
-        System.out.println("Y location: " + yLoc);
+        GraphicsJNI.drawText(font5x8, 20, 59, MAGENTA, "Test");
         showMatrix(helloMatrix);
         Thread.sleep(2000);
         LedMatrixJNI.clear();
@@ -59,8 +62,7 @@ public class Main {
         worldMatrix[4] = new byte[] {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1};
 
         LedMatrixJNI.setBrightness(100);
-        yLoc = GraphicsJNI.drawText(getFontPath("8x13"), 18, 59, CYAN, "Test");
-        System.out.println("Y location: " + yLoc);
+        GraphicsJNI.drawText(font8x13, 18, 59, CYAN, "Test");
         showMatrix(worldMatrix);
         Thread.sleep(2000);
 

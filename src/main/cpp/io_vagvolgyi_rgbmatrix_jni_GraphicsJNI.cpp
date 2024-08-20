@@ -1,6 +1,7 @@
 #include "io_vagvolgyi_rgbmatrix_jni_GraphicsJNI.h"
 #include "led-matrix.h"
 #include "graphics.h"
+#include "converter/font_converter.h"
 #include "converter/color_converter.h"
 
 using rgb_matrix::RGBMatrix;
@@ -9,22 +10,20 @@ using rgb_matrix::Font;
 
 extern RGBMatrix *matrix;
 
-JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawText(JNIEnv *env, jclass, jstring fontPath, jint x, jint y, jobject jColor, jstring text) {
+JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawText(JNIEnv *env, jclass, jobject fontJNI, jint x, jint y, jobject jColor, jstring text) {
     int result = 0;
 
     if (matrix != nullptr) {
-        const char *fontPathChars = env->GetStringUTFChars(fontPath, 0);
-        Font font;
-        if (font.LoadFont(fontPathChars)) {
+        Font *font = FontConverter(env).toNative(fontJNI);
+
+        if (font != nullptr) {
             Color color = ColorConverter(env).convert(jColor);
             const char *textChars = env->GetStringUTFChars(text, 0);
 
-            result = rgb_matrix::DrawText(matrix, font, x, y, color, textChars);
+            result = rgb_matrix::DrawText(matrix, *font, x, y, color, textChars);
 
             env->ReleaseStringUTFChars(text, textChars);
         }
-
-        env->ReleaseStringUTFChars(fontPath, fontPathChars);
     }
 
     return result;

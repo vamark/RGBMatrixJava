@@ -11,6 +11,11 @@ using rgb_matrix::Color;
 RGBMatrix *matrix = nullptr;
 
 void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_LedMatrixJNI_initMatrix(JNIEnv *env, jclass, jobject options, jobject runtimeOptions) {
+    if (matrix != nullptr) {
+        delete matrix;
+        matrix = nullptr;
+    }
+
     rgb_matrix::RGBMatrix::Options my_defaults = OptionsConverter(env).convert(options);
     rgb_matrix::RuntimeOptions runtime_defaults = RuntimeOptionsConverter(env).convert(runtimeOptions);
 
