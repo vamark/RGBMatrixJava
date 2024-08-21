@@ -2,7 +2,7 @@
 #define COLOR_CONVERTER_H
 
 #include <jni.h>
-#include "graphics.h"
+#include <stdexcept>
 
 class ColorConverter {
 private:
@@ -11,7 +11,7 @@ private:
 
 public:
     ColorConverter(JNIEnv *env);
-    rgb_matrix::Color convert(jobject jColor);
+    rgb_matrix::Color toNative(jobject jColor);
 };
 
 #endif

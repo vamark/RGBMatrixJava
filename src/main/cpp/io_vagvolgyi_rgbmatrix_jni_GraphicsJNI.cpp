@@ -17,7 +17,7 @@ JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawText(JNIE
         Font *font = FontConverter(env).toNative(fontJNI);
 
         if (font != nullptr) {
-            Color color = ColorConverter(env).convert(jColor);
+            Color color = ColorConverter(env).toNative(jColor);
             const char *textChars = env->GetStringUTFChars(text, 0);
 
             result = rgb_matrix::DrawText(matrix, *font, x, y, color, textChars);
@@ -31,14 +31,14 @@ JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawText(JNIE
 
 JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawCircle(JNIEnv *env, jclass, jint x, jint y, jint radius, jobject jColor) {
     if (matrix != nullptr) {
-        Color color = ColorConverter(env).convert(jColor);
+        Color color = ColorConverter(env).toNative(jColor);
         rgb_matrix::DrawCircle(matrix, x, y, radius, color);
     }
 }
 
 JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_drawLine(JNIEnv *env, jclass, jint x1, jint y1, jint x2, jint y2, jobject jColor) {
     if (matrix != nullptr) {
-        Color color = ColorConverter(env).convert(jColor);
+        Color color = ColorConverter(env).toNative(jColor);
         rgb_matrix::DrawLine(matrix, x1, y1, x2, y2, color);
     }
 }

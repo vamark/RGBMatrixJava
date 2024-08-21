@@ -5,7 +5,7 @@
 
 using rgb_matrix::Font;
 
-uint32_t jstringToUnicodeCodepoint(JNIEnv *env, jstring jstr);
+uint32_t toUnicodeCodepoint(JNIEnv *env, jstring jstr);
 
 JNIEXPORT jlong JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_loadFont(JNIEnv *env, jclass, jstring fontPath) {
     const char *nativeString = env->GetStringUTFChars(fontPath, 0);
@@ -30,7 +30,7 @@ JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_getBaseline(JNIEn
 }
 
 JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_getCharacterWidth(JNIEnv *env, jobject fontJNI, jstring character) {
-    return FontConverter(env).toNative(fontJNI)->CharacterWidth(jstringToUnicodeCodepoint(env, character));
+    return FontConverter(env).toNative(fontJNI)->CharacterWidth(toUnicodeCodepoint(env, character));
 }
 
 JNIEXPORT jobject JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_createOutlineFont(JNIEnv *env, jobject fontJNI) {
@@ -42,7 +42,7 @@ JNIEXPORT jobject JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_createOutlineF
     return fontConverter.toJava(outlineFont);
 }
 
-uint32_t jstringToUnicodeCodepoint(JNIEnv *env, jstring jstr) {
+uint32_t toUnicodeCodepoint(JNIEnv *env, jstring jstr) {
     const jchar *utf16 = env->GetStringChars(jstr, nullptr);
     jsize length = env->GetStringLength(jstr);
 

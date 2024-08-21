@@ -16,8 +16,8 @@ void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_LedMatrixJNI_initMatrix(JNIEnv *env
         matrix = nullptr;
     }
 
-    rgb_matrix::RGBMatrix::Options my_defaults = OptionsConverter(env).convert(options);
-    rgb_matrix::RuntimeOptions runtime_defaults = RuntimeOptionsConverter(env).convert(runtimeOptions);
+    rgb_matrix::RGBMatrix::Options my_defaults = OptionsConverter(env).toNative(options);
+    rgb_matrix::RuntimeOptions runtime_defaults = RuntimeOptionsConverter(env).toNative(runtimeOptions);
 
     matrix = RGBMatrix::CreateFromOptions(my_defaults, runtime_defaults);
 }
@@ -37,14 +37,14 @@ JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_LedMatrixJNI_setBrightnes
 
 void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_LedMatrixJNI_setPixel(JNIEnv *env, jclass, jint x, jint y, jobject jColor) {
     if (matrix != nullptr) {
-        Color color = ColorConverter(env).convert(jColor);
+        Color color = ColorConverter(env).toNative(jColor);
         matrix->SetPixel(x, y, color.r, color.g, color.b);
     }
 }
 
 JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_LedMatrixJNI_fill(JNIEnv *env, jclass, jobject jColor) {
     if (matrix != nullptr) {
-        Color color = ColorConverter(env).convert(jColor);
+        Color color = ColorConverter(env).toNative(jColor);
         matrix->Fill(color.r, color.g, color.b);
     }
 }
