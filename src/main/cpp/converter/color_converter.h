@@ -2,7 +2,9 @@
 #define COLOR_CONVERTER_H
 
 #include <jni.h>
-#include <stdexcept>
+#include "led-matrix.h"
+
+using rgb_matrix::Color;
 
 class ColorConverter {
 private:
@@ -11,7 +13,7 @@ private:
 
 public:
     ColorConverter(JNIEnv *env);
-    rgb_matrix::Color toNative(jobject jColor);
+    Color convert(jobject jColor);
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "io_vagvolgyi_rgbmatrix_jni_FontJNI.h"
 #include "graphics.h"
-#include "converter/font_converter.h"
+#include "bridge/font_bridge.h"
 #include <string>
 
 using rgb_matrix::Font;
@@ -22,24 +22,24 @@ JNIEXPORT jlong JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_loadFont(JNIEnv 
 }
 
 JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_getHeight(JNIEnv *env, jobject fontJNI) {
-    return FontConverter(env).toNative(fontJNI)->height();
+    return FontBridge(env).toNative(fontJNI)->height();
 }
 
 JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_getBaseline(JNIEnv *env, jobject fontJNI) {
-    return FontConverter(env).toNative(fontJNI)->baseline();
+    return FontBridge(env).toNative(fontJNI)->baseline();
 }
 
 JNIEXPORT jint JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_getCharacterWidth(JNIEnv *env, jobject fontJNI, jstring character) {
-    return FontConverter(env).toNative(fontJNI)->CharacterWidth(toUnicodeCodepoint(env, character));
+    return FontBridge(env).toNative(fontJNI)->CharacterWidth(toUnicodeCodepoint(env, character));
 }
 
 JNIEXPORT jobject JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FontJNI_createOutlineFont(JNIEnv *env, jobject fontJNI) {
-    FontConverter fontConverter(env);
-    Font *font = fontConverter.toNative(fontJNI);
+    FontBridge fontBridge(env);
+    Font *font = fontBridge.toNative(fontJNI);
 
     Font *outlineFont = font->CreateOutlineFont();
 
-    return fontConverter.toJava(outlineFont);
+    return fontBridge.toJava(outlineFont);
 }
 
 uint32_t toUnicodeCodepoint(JNIEnv *env, jstring jstr) {

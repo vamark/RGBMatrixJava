@@ -11,7 +11,7 @@ private:
 
 public:
     RuntimeOptionsConverter(JNIEnv *env);
-    rgb_matrix::RuntimeOptions toNative(jobject runtimeOptions);
+    rgb_matrix::RuntimeOptions convert(jobject runtimeOptions);
 };
 
 #endif

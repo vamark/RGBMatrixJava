@@ -4,7 +4,7 @@ RuntimeOptionsConverter::RuntimeOptionsConverter(JNIEnv *env) {
     this->env = env;
 }
 
-rgb_matrix::RuntimeOptions RuntimeOptionsConverter::toNative(jobject runtimeOptions) {
+rgb_matrix::RuntimeOptions RuntimeOptionsConverter::convert(jobject runtimeOptions) {
     FieldReader runtimeOptionsReader(env, runtimeOptions);
     rgb_matrix::RuntimeOptions nativeRuntimeOptions;
 

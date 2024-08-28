@@ -4,7 +4,7 @@ OptionsConverter::OptionsConverter(JNIEnv *env) {
     this->env = env;
 }
 
-rgb_matrix::RGBMatrix::Options OptionsConverter::toNative(jobject options) {
+rgb_matrix::RGBMatrix::Options OptionsConverter::convert(jobject options) {
     FieldReader optionsReader(env, options);
     rgb_matrix::RGBMatrix::Options nativeOptions;
 

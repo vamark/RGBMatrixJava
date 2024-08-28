@@ -2,7 +2,7 @@ package io.vagvolgyi.rgbmatrix;
 
 import io.vagvolgyi.rgbmatrix.jni.FontJNI;
 import io.vagvolgyi.rgbmatrix.jni.GraphicsJNI;
-import io.vagvolgyi.rgbmatrix.jni.LedMatrixJNI;
+import io.vagvolgyi.rgbmatrix.jni.RGBMatrixJNI;
 import io.vagvolgyi.rgbmatrix.jni.model.Options;
 import io.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
 
@@ -29,51 +29,50 @@ public class Main {
         RuntimeOptions runtimeOptions = new RuntimeOptions()
                 .dropPrivileges(0);
 
-        LedMatrixJNI.initMatrix(options, runtimeOptions);
-        LedMatrixJNI.setBrightness(60);
-        LedMatrixJNI.fill(BLUE);
-        GraphicsJNI.drawLine(0, 0, 63, 63, RED);
-        GraphicsJNI.drawLine(0, 63, 63, 0, RED);
-        GraphicsJNI.drawCircle(32, 32, 16, GREEN);
+        try(RGBMatrixJNI matrix = new RGBMatrixJNI(options, runtimeOptions)) {
+            matrix.setBrightness(60);
+            matrix.fill(BLUE.getRed(), BLUE.getGreen(), BLUE.getBlue());
+            GraphicsJNI.drawLine(matrix, 0, 0, 63, 63, RED);
+            GraphicsJNI.drawLine(matrix, 0, 63, 63, 0, RED);
+            GraphicsJNI.drawCircle(matrix, 32, 32, 16, GREEN);
 
-        byte[][] helloMatrix = new byte[5][19];
-        helloMatrix[0] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};
-        helloMatrix[1] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloMatrix[2] = new byte[] {1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloMatrix[3] = new byte[] {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloMatrix[4] = new byte[] {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0};
+            byte[][] helloArray = new byte[5][19];
+            helloArray[0] = new byte[]{1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};
+            helloArray[1] = new byte[]{1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+            helloArray[2] = new byte[]{1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+            helloArray[3] = new byte[]{1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
+            helloArray[4] = new byte[]{1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0};
 
-        LedMatrixJNI.setBrightness(100);
-        GraphicsJNI.drawText(font5x8, 20, 59, MAGENTA, "Test");
-        showMatrix(helloMatrix);
-        Thread.sleep(2000);
-        LedMatrixJNI.clear();
-        LedMatrixJNI.setBrightness(60);
-        LedMatrixJNI.fill(RED);
-        GraphicsJNI.drawLine(0, 0, 63, 63, BLUE);
-        GraphicsJNI.drawLine(0, 63, 63, 0, BLUE);
-        GraphicsJNI.drawCircle(32, 32, 16, YELLOW);
+            matrix.setBrightness(100);
+            GraphicsJNI.drawText(matrix, font5x8, 20, 59, MAGENTA, "Test");
+            showMatrix(matrix, helloArray);
+            Thread.sleep(2000);
+            matrix.clear();
+            matrix.setBrightness(60);
+            matrix.fill(RED.getRed(), RED.getGreen(), RED.getBlue());
+            GraphicsJNI.drawLine(matrix, 0, 0, 63, 63, BLUE);
+            GraphicsJNI.drawLine(matrix, 0, 63, 63, 0, BLUE);
+            GraphicsJNI.drawCircle(matrix, 32, 32, 16, YELLOW);
 
-        byte[][] worldMatrix = new byte[5][23];
-        worldMatrix[0] = new byte[] {1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1};
-        worldMatrix[1] = new byte[] {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
-        worldMatrix[2] = new byte[] {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
-        worldMatrix[3] = new byte[] {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0};
-        worldMatrix[4] = new byte[] {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1};
+            byte[][] worldArray = new byte[5][23];
+            worldArray[0] = new byte[]{1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1};
+            worldArray[1] = new byte[]{1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
+            worldArray[2] = new byte[]{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
+            worldArray[3] = new byte[]{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0};
+            worldArray[4] = new byte[]{0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1};
 
-        LedMatrixJNI.setBrightness(100);
-        GraphicsJNI.drawText(font8x13, 18, 59, CYAN, "Test");
-        showMatrix(worldMatrix);
-        Thread.sleep(2000);
-
-        LedMatrixJNI.destroyMatrix();
+            matrix.setBrightness(100);
+            GraphicsJNI.drawText(matrix, font8x13, 18, 59, CYAN, "Test");
+            showMatrix(matrix, worldArray);
+            Thread.sleep(2000);
+        }
     }
 
-    private static void showMatrix(byte[][] matrix) throws InterruptedException {
-        for(int y = 0; y < matrix.length; y++) {
-            for(int x = 0; x < matrix[y].length; x++) {
-                if(matrix[y][x] == 1) {
-                    LedMatrixJNI.setPixel(x + 20, y + 5, WHITE);
+    private static void showMatrix(RGBMatrixJNI matrix, byte[][] byteMatrix) throws InterruptedException {
+        for(int y = 0; y < byteMatrix.length; y++) {
+            for(int x = 0; x < byteMatrix[y].length; x++) {
+                if(byteMatrix[y][x] == 1) {
+                    matrix.setPixel(x + 20, y + 5, WHITE.getRed(), WHITE.getGreen(), WHITE.getBlue());
                     Thread.sleep(100);
                 }
             }
