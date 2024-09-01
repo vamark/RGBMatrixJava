@@ -21,5 +21,5 @@ public class FrameCanvasJNI extends CanvasJNI {
 
     public native void copyFrom(FrameCanvasJNI other);
 
-    public static native void setPixels(int x, int y, int width, int height, Color[] colors);
+    public native void setPixels(int x, int y, int width, int height, Color[] colors);
 }

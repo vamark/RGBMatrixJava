@@ -35,7 +35,7 @@ JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FrameCanvasJNI_copyFrom(J
     nativeFrameCanvas->CopyFrom(*nativeFrameCanvasSource);
 }
 
-JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FrameCanvasJNI_setPixels(JNIEnv* env, jclass frameCanvasJNI, jint x, jint y, jint width, jint height, jobjectArray colorJNIs) {
+JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FrameCanvasJNI_setPixels(JNIEnv* env, jobject frameCanvasJNI, jint x, jint y, jint width, jint height, jobjectArray colorJNIs) {
     jsize length = env->GetArrayLength(colorJNIs);
     Color* colors = new Color[length];
     ColorConverter colorConverter(env);

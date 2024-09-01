@@ -50,14 +50,8 @@ class BasicDrawTest {
 
     @Test
     void drawPixelByPixel() {
-        byte[][] helloArray = new byte[5][19];
-        helloArray[0] = new byte[]{1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};
-        helloArray[1] = new byte[]{1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloArray[2] = new byte[]{1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloArray[3] = new byte[]{1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1};
-        helloArray[4] = new byte[]{1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0};
-
-        assertDoesNotThrow(() -> printMatrix(rgbMatrix, 20, 20, RED, helloArray));
+        assertDoesNotThrow(() -> printMatrix(rgbMatrix, 20, 20, RED, HELLO));
+        assertDoesNotThrow(() -> printMatrix(rgbMatrix, 18, 26, GREEN, WORLD));
     }
 
     @Test
