@@ -13,6 +13,7 @@ import static java.awt.Color.*;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static util.MatrixTestUtil.*;
+import static util.SleepUtil.sleepFor;
 
 class CanvasDrawTest {
     static {
@@ -68,7 +69,7 @@ class CanvasDrawTest {
         for(Color color : colors) {
             Color[] gradients = createColorGradientArray(BLACK, color, 256);
             assertDoesNotThrow(() -> printColorGradients(rgbMatrix, gradients));
-            Thread.sleep(1000);
+            sleepFor(1000);
         }
     }
 }

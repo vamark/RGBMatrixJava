@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
+import static util.SleepUtil.sleepFor;
+
 public class MatrixTestUtil {
     public static final byte[][] HELLO = createHelloArray();
     public static final byte[][] WORLD = createWorldArray();
@@ -16,7 +18,7 @@ public class MatrixTestUtil {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
                     matrix.setPixel(x + xOffset, y + yOffset, color.getRed(), color.getGreen(), color.getBlue());
-                    Thread.sleep(50);
+                    sleepFor(50);
                 }
             }
         }
@@ -27,7 +29,7 @@ public class MatrixTestUtil {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
                     canvas.setPixel(x + xOffset, y + yOffset, color.getRed(), color.getGreen(), color.getBlue());
-                    Thread.sleep(50);
+                    sleepFor(50);
                     canvas = swapAndCopy(rgbMatrix, canvas);
                 }
             }
@@ -37,9 +39,9 @@ public class MatrixTestUtil {
     public static void fillAndClearMatrix(RGBMatrixJNI matrix, List<Color> colors) throws InterruptedException {
         for(Color color : colors) {
             matrix.fill(color.getRed(), color.getGreen(), color.getBlue());
-            Thread.sleep(300);
+            sleepFor(300);
             matrix.clear();
-            Thread.sleep(200);
+            sleepFor(200);
         }
     }
 
@@ -48,7 +50,7 @@ public class MatrixTestUtil {
         for(Color color : colors) {
             drawCanvas.fill(color.getRed(), color.getGreen(), color.getBlue());
             drawCanvas = rgbMatrix.swapOnVSync(drawCanvas);
-            Thread.sleep(500);
+            sleepFor(500);
         }
     }
 

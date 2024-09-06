@@ -16,6 +16,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static util.MatrixTestUtil.*;
+import static util.SleepUtil.sleepFor;
 
 class BasicDrawTest {
     private static final int MATRIX_WIDTH = 64;
@@ -66,7 +67,7 @@ class BasicDrawTest {
     void fillWithDifferentBrightness(int brightness) throws InterruptedException {
         rgbMatrix.setBrightness(brightness);
         rgbMatrix.fill(WHITE.getRed(), WHITE.getGreen(), WHITE.getBlue());
-        Thread.sleep(500);
+        sleepFor(500);
 
         assertThat(rgbMatrix.getBrightness()).isEqualTo(brightness);
     }
