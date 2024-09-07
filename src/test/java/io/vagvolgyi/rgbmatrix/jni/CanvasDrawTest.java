@@ -1,9 +1,5 @@
 package io.vagvolgyi.rgbmatrix.jni;
 
-import io.vagvolgyi.rgbmatrix.jni.model.Options;
-import io.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -15,34 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static util.MatrixTestUtil.*;
 import static util.SleepUtil.sleepFor;
 
-class CanvasDrawTest {
-    static {
-        System.loadLibrary("rgbmatrixjni");
-    }
-
-    private RGBMatrixJNI rgbMatrix;
-
-    @BeforeEach
-    void setUp() {
-        Options options = new Options()
-                .hardwareMapping("adafruit-hat-pwm")
-                .disableHardwarePulsing(true) // Required for the tests to work without root privileges
-                .chainLength(1)
-                .cols(64)
-                .rows(64)
-                .ledRgbSequence("BGR");
-
-        RuntimeOptions runtimeOptions = new RuntimeOptions()
-                .dropPrivileges(0);
-
-        rgbMatrix = new RGBMatrixJNI(options, runtimeOptions);
-    }
-
-    @AfterEach
-    void tearDown() {
-        rgbMatrix.close();
-    }
-
+class CanvasDrawTest extends MatrixTestBase {
     @Test
     void fillColorsWithVsync() {
         List<Color> colors = asList(RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA, WHITE);
@@ -63,7 +32,7 @@ class CanvasDrawTest {
     }
 
     @Test
-    void drawPixelsInBatches() throws InterruptedException {
+    void drawPixelsInBatches() {
         Color[] colors = new Color[]{RED, GREEN, BLUE, YELLOW, CYAN, MAGENTA, WHITE};
 
         for(Color color : colors) {

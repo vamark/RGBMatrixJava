@@ -1,9 +1,11 @@
 package util;
 
+import io.vagvolgyi.rgbmatrix.jni.FontJNI;
 import io.vagvolgyi.rgbmatrix.jni.FrameCanvasJNI;
 import io.vagvolgyi.rgbmatrix.jni.RGBMatrixJNI;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class MatrixTestUtil {
     public static final byte[][] HELLO = createHelloArray();
     public static final byte[][] WORLD = createWorldArray();
 
-    public static void printMatrix(RGBMatrixJNI matrix, int xOffset, int yOffset, Color color, byte[][] bytes) throws InterruptedException {
+    public static void printMatrix(RGBMatrixJNI matrix, int xOffset, int yOffset, Color color, byte[][] bytes) {
         for(int y = 0; y < bytes.length; y++) {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
@@ -24,7 +26,7 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void printMatrixWithVSync(RGBMatrixJNI rgbMatrix, FrameCanvasJNI canvas, int xOffset, int yOffset, Color color, byte[][] bytes) throws InterruptedException {
+    public static void printMatrixWithVSync(RGBMatrixJNI rgbMatrix, FrameCanvasJNI canvas, int xOffset, int yOffset, Color color, byte[][] bytes) {
         for(int y = 0; y < bytes.length; y++) {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
@@ -36,7 +38,7 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void fillAndClearMatrix(RGBMatrixJNI matrix, List<Color> colors) throws InterruptedException {
+    public static void fillAndClearMatrix(RGBMatrixJNI matrix, List<Color> colors) {
         for(Color color : colors) {
             matrix.fill(color.getRed(), color.getGreen(), color.getBlue());
             sleepFor(300);
@@ -45,7 +47,7 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void fillMatrixWithVSync(RGBMatrixJNI rgbMatrix, List<Color> colors) throws InterruptedException {
+    public static void fillMatrixWithVSync(RGBMatrixJNI rgbMatrix, List<Color> colors) {
         FrameCanvasJNI drawCanvas = rgbMatrix.createFrameCanvas();
         for(Color color : colors) {
             drawCanvas.fill(color.getRed(), color.getGreen(), color.getBlue());
@@ -84,7 +86,7 @@ public class MatrixTestUtil {
         return colors;
     }
 
-    public static void printColorGradients(RGBMatrixJNI rgbMatrix, Color[] gradients) throws InterruptedException {
+    public static void printColorGradients(RGBMatrixJNI rgbMatrix, Color[] gradients) {
         FrameCanvasJNI canvas = rgbMatrix.createFrameCanvas();
 
         int gradient = 0;
@@ -96,6 +98,17 @@ public class MatrixTestUtil {
         }
 
         rgbMatrix.swapOnVSync(canvas);
+    }
+
+    public static FontJNI loadFont(String fontName) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL resource = classLoader.getResource("fonts/" + fontName + ".bdf");
+        if(resource == null) {
+            throw new IllegalArgumentException("Font not found! " + fontName);
+        }
+        else {
+            return new FontJNI(resource.getFile());
+        }
     }
 
     private static byte[][] createHelloArray() {
