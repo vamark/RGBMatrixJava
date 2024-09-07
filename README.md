@@ -9,3 +9,6 @@ Test:
 
 Fast test:
 ```mvn test -DskipSleep```
+
+Test with coverage:
+```mvn test -Pcoverage```

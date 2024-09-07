@@ -3,6 +3,8 @@ package io.vagvolgyi.rgbmatrix.jni;
 import java.awt.*;
 
 public class GraphicsJNI {
+    private GraphicsJNI() {}
+
     public static native int drawText(CanvasJNI canvas, FontJNI font, int x, int y, Color color, String text);
 
     public static native void drawCircle(CanvasJNI canvas, int x, int y, int radius, Color color);
