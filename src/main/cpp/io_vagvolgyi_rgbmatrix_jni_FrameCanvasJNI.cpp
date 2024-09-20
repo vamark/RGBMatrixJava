@@ -42,7 +42,7 @@ JNIEXPORT void JNICALL Java_io_vagvolgyi_rgbmatrix_jni_FrameCanvasJNI_setPixels(
 
     for (jsize i = 0; i < length; ++i) {
         jobject javaColor = env->GetObjectArrayElement(colorJNIs, i);
-        colors[i] = colorConverter.convert(javaColor);
+        colors[i] = *colorConverter.convert(javaColor);
         env->DeleteLocalRef(javaColor);
     }
 

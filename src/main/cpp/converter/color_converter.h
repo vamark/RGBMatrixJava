@@ -13,7 +13,7 @@ private:
 
 public:
     ColorConverter(JNIEnv *env);
-    Color convert(jobject jColor);
+    Color* convert(jobject jColor);
 };
 
 #endif

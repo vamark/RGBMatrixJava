@@ -26,6 +26,57 @@ class GraphicsTest extends MatrixTestBase {
     }
 
     @Test
+    void advancedDrawText() {
+        assertDoesNotThrow(() -> {
+            FontJNI font1 = loadFont("5x8");
+            GraphicsJNI.drawText(rgbMatrix, font1, 0, 8, BLACK, RED, "Test", 2);
+            sleepFor(1000);
+
+            FontJNI font2 = loadFont("7x13");
+            GraphicsJNI.drawText(rgbMatrix, font2, 0, 22, BLACK, GREEN, "Test", 0);
+            sleepFor(1000);
+
+            FontJNI font3 = loadFont("9x18");
+            GraphicsJNI.drawText(rgbMatrix, font3, 0, 42, BLACK, BLUE, "Test", -2);
+            sleepFor(1000);
+        });
+    }
+
+    @Test
+    void verticalDrawText() {
+        assertDoesNotThrow(() -> {
+            FontJNI font1 = loadFont("5x8");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font1, 5, 8, RED, "Test");
+            sleepFor(1000);
+
+            FontJNI font2 = loadFont("7x13");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font2, 14, 13, GREEN, "Test");
+            sleepFor(1000);
+
+            FontJNI font3 = loadFont("9x18");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font3, 25, 18, BLUE, "Test");
+            sleepFor(1000);
+        });
+    }
+
+    @Test
+    void advancedVerticalDrawText() {
+        assertDoesNotThrow(() -> {
+            FontJNI font1 = loadFont("5x8");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font1, 5, 8, BLACK, RED, "Test", 2);
+            sleepFor(1000);
+
+            FontJNI font2 = loadFont("7x13");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font2, 14, 13, BLACK, GREEN, "Test", 0);
+            sleepFor(1000);
+
+            FontJNI font3 = loadFont("9x18");
+            GraphicsJNI.verticalDrawText(rgbMatrix, font3, 25, 18, BLACK, BLUE, "Test", -2);
+            sleepFor(1000);
+        });
+    }
+
+    @Test
     void drawCircle() {
         assertDoesNotThrow(() -> {
             GraphicsJNI.drawCircle(rgbMatrix, 32, 32, 10, RED);
