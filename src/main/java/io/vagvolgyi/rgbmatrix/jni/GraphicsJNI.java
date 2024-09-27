@@ -5,6 +5,9 @@ import java.awt.*;
 public class GraphicsJNI {
     private GraphicsJNI() {}
 
+    public static native boolean setImage(CanvasJNI canvas, int canvasOffsetX, int canvasOffsetY, byte[] imgeBuffer,
+                                          long bufferSizeBytes, int imageWidth, int imageHeight, boolean isBgr);
+
     public static int drawText(CanvasJNI canvas, FontJNI font, int x, int y, Color color, String text) {
         return drawText(canvas, font, x, y, color, text, 0);
     }

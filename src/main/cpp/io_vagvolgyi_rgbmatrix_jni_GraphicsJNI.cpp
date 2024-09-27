@@ -10,6 +10,14 @@ using rgb_matrix::Color;
 using rgb_matrix::Font;
 using rgb_matrix::FrameCanvas;
 
+JNIEXPORT jboolean JNICALL Java_io_vagvolgyi_rgbmatrix_jni_GraphicsJNI_setImage(JNIEnv* env, jclass, jobject canvasJNI, jint canvasOffsetX, jint canvasOffsetY, jbyteArray imageBuffer, jlong imageBufferSize, jint imageWidth, jint imageHeight, jboolean isBgr) {
+    FrameCanvas* canvas = FrameCanvasBridge(env).toNative(canvasJNI);
+    jbyte* imageBufferPtr = env->GetByteArrayElements(imageBuffer, 0);
+    bool result = rgb_matrix::SetImage(canvas, canvasOffsetX, canvasOffsetY, reinterpret_cast<unsigned char*>(imageBufferPtr), imageBufferSize, imageWidth, imageHeight, isBgr);
+    env->ReleaseByteArrayElements(imageBuffer, imageBufferPtr, 0);
+    return result;
+}
+
 void prepareTextDrawing(JNIEnv* env, jobject canvasJNI, jobject fontJNI, jobject colorJNI, jobject backgroundColorJNI, jstring text, FrameCanvas*& canvas, Font*& font, Color& color, Color*& backgroundColor, const char*& textChars) {
     canvas = FrameCanvasBridge(env).toNative(canvasJNI);
     font = FontBridge(env).toNative(fontJNI);

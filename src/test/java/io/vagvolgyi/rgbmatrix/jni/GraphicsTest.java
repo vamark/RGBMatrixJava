@@ -1,6 +1,7 @@
 package io.vagvolgyi.rgbmatrix.jni;
 
 import org.junit.jupiter.api.Test;
+import util.MatrixTestUtil;
 
 import static java.awt.Color.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -8,6 +9,19 @@ import static util.MatrixTestUtil.loadFont;
 import static util.SleepUtil.sleepFor;
 
 class GraphicsTest extends MatrixTestBase {
+    @Test
+    void setImage() {
+        byte[] image = MatrixTestUtil.createImageArray();
+
+        assertDoesNotThrow(() -> {
+            GraphicsJNI.setImage(rgbMatrix, 0, 0, image, image.length, 15, 15, false);
+            sleepFor(1000);
+
+            GraphicsJNI.setImage(rgbMatrix, 15, 15, image, image.length, 15, 15, true);
+            sleepFor(1000);
+        });
+    }
+
     @Test
     void drawText() {
         assertDoesNotThrow(() -> {

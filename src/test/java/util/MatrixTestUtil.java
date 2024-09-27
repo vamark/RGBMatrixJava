@@ -7,8 +7,11 @@ import io.vagvolgyi.rgbmatrix.jni.RGBMatrixJNI;
 import java.awt.*;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static java.awt.Color.*;
 import static util.SleepUtil.sleepFor;
 
 public class MatrixTestUtil {
@@ -131,5 +134,42 @@ public class MatrixTestUtil {
         worldArray[4] = new byte[]{0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1};
 
         return worldArray;
+    }
+
+    public static byte[] createImageArray() {
+        Map<Byte, Color> colorMap = new HashMap<>();
+        colorMap.put((byte) 0, BLUE);
+        colorMap.put((byte) 1, ORANGE);
+        colorMap.put((byte) 2, YELLOW);
+
+        byte[][] imageArray = new byte[15][15];
+        imageArray[0]  = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        imageArray[1]  = new byte[]{0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0};
+        imageArray[2]  = new byte[]{0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0};
+        imageArray[3]  = new byte[]{0, 1, 0, 0, 1, 2, 1, 1, 1, 2, 1, 0, 0, 1, 0};
+        imageArray[4]  = new byte[]{0, 0, 1, 1, 0, 1, 2, 2, 2, 1, 0, 1, 1, 0, 0};
+        imageArray[5]  = new byte[]{0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0};
+        imageArray[6]  = new byte[]{0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0};
+        imageArray[7]  = new byte[]{0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0};
+        imageArray[8]  = new byte[]{0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0};
+        imageArray[9]  = new byte[]{0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0};
+        imageArray[10] = new byte[]{0, 0, 1, 1, 0, 1, 2, 2, 2, 1, 0, 1, 1, 0, 0};
+        imageArray[11] = new byte[]{0, 1, 0, 0, 1, 2, 1, 1, 1, 2, 1, 0, 0, 1, 0};
+        imageArray[12] = new byte[]{0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0};
+        imageArray[13] = new byte[]{0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0};
+        imageArray[14] = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        byte[] imageBuffer = new byte[15 * 15 * 3];
+        for(int y = 0; y < imageArray.length; y++) {
+            for(int x = 0; x < imageArray[y].length; x++) {
+                Color color = colorMap.get(imageArray[y][x]);
+                int index = (y * 15 + x) * 3;
+                imageBuffer[index] = (byte) color.getRed();
+                imageBuffer[index + 1] = (byte) color.getGreen();
+                imageBuffer[index + 2] = (byte) color.getBlue();
+            }
+        }
+
+        return imageBuffer;
     }
 }
