@@ -8,38 +8,38 @@ public class RuntimeOptions {
     private String dropPrivUser;
     private String dropPrivGroup;
 
-    public int getGpioSlowdown() {
+    public Integer getGpioSlowdown() {
         return gpioSlowdown;
     }
 
-    public RuntimeOptions gpioSlowdown(int gpioSlowdown) {
+    public RuntimeOptions gpioSlowdown(Integer gpioSlowdown) {
         this.gpioSlowdown = gpioSlowdown;
         return this;
     }
 
-    public int getDaemon() {
+    public Integer getDaemon() {
         return daemon;
     }
 
-    public RuntimeOptions daemon(int daemon) {
+    public RuntimeOptions daemon(Integer daemon) {
         this.daemon = daemon;
         return this;
     }
 
-    public int getDropPrivileges() {
+    public Integer getDropPrivileges() {
         return dropPrivileges;
     }
 
-    public RuntimeOptions dropPrivileges(int dropPrivileges) {
+    public RuntimeOptions dropPrivileges(Integer dropPrivileges) {
         this.dropPrivileges = dropPrivileges;
         return this;
     }
 
-    public boolean isDoGpioInit() {
+    public Boolean isDoGpioInit() {
         return doGpioInit;
     }
 
-    public RuntimeOptions doGpioInit(boolean doGpioInit) {
+    public RuntimeOptions doGpioInit(Boolean doGpioInit) {
         this.doGpioInit = doGpioInit;
         return this;
     }
