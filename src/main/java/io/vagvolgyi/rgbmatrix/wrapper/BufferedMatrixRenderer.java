@@ -1,8 +1,10 @@
 package io.vagvolgyi.rgbmatrix.wrapper;
 
-import io.vagvolgyi.rgbmatrix.jni.FrameCanvasJNI;
-import io.vagvolgyi.rgbmatrix.jni.GraphicsJNI;
 import io.vagvolgyi.rgbmatrix.jni.RGBMatrixJNI;
+import io.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
+import io.vagvolgyi.rgbmatrix.jni.api.Matrix;
+import io.vagvolgyi.rgbmatrix.jni.model.Options;
+import io.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * A renderer for an RGB matrix that uses a buffered approach.
@@ -21,9 +24,19 @@ import java.util.Properties;
  * technique to minimize flickering and improve rendering performance.</p>
  */
 public class BufferedMatrixRenderer implements AutoCloseable {
-    private final RGBMatrixJNI matrix;
+    private final Matrix matrix;
+    private final Graphics graphics;
 
-    private FrameCanvasJNI buffer;
+    private FrameCanvas buffer;
+
+    static {
+        try {
+            System.loadLibrary("rgbmatrixjni");
+        }
+        catch (UnsatisfiedLinkError e) {
+            Logger.getLogger(BufferedMatrixRenderer.class.getName()).severe("Unable to load the rgbmatrixjni library");
+        }
+    }
 
     /**
      * Constructs a BufferedMatrixRenderer and initializes the matrix with configuration from the matrix_config.properties
@@ -40,8 +53,9 @@ public class BufferedMatrixRenderer implements AutoCloseable {
             properties.load(input);
         }
         MatrixConfigParser parser = new MatrixConfigParser(properties);
-        matrix = new RGBMatrixJNI(parser.parseOptions(), parser.parseRuntimeOptions());
+        matrix = createMatrix(parser.parseOptions(), parser.parseRuntimeOptions());
         buffer = matrix.createFrameCanvas();
+        graphics = createGraphics();
     }
 
     /**
@@ -78,6 +92,10 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * @param colors the colors of the pixels, in row-major order.
      */
     public void drawPixels(Point start, int width, int height, Collection<Color> colors) {
+        if (colors.size() != width * height) {
+            throw new IllegalArgumentException("The number of colors must match the width and height");
+        }
+
         buffer.setPixels(start.x, start.y, width, height, colors.toArray(new Color[0]));
     }
 
@@ -98,7 +116,7 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * @param color the color of the line.
      */
     public void drawLine(Point start, Point end, Color color) {
-        GraphicsJNI.drawLine(buffer, start.x, start.y, end.x, end.y, color);
+        graphics.drawLine(buffer, start.x, start.y, end.x, end.y, color);
     }
 
     /**
@@ -109,7 +127,7 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * @param color  the color of the circle.
      */
     public void drawCircle(Point center, int radius, Color color) {
-        GraphicsJNI.drawCircle(buffer, center.x, center.y, radius, color);
+        graphics.drawCircle(buffer, center.x, center.y, radius, color);
     }
 
     /**
@@ -122,7 +140,7 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * @return the width of the text in pixels.
      */
     public int drawText(BdfFont font, Point start, Color color, String text) {
-        return GraphicsJNI.drawText(buffer, font.getFont(), start.x, start.y, color, text);
+        return graphics.drawText(buffer, font.getFont(), start.x, start.y, color, text);
     }
 
     /**
@@ -135,7 +153,7 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * @return the height of the text in pixels.
      */
     public int drawVerticalText(BdfFont font, Point start, Color color, String text) {
-        return GraphicsJNI.verticalDrawText(buffer, font.getFont(), start.x, start.y, color, text);
+        return graphics.verticalDrawText(buffer, font.getFont(), start.x, start.y, color, text);
     }
 
     /**
@@ -156,7 +174,8 @@ public class BufferedMatrixRenderer implements AutoCloseable {
                 imageBuffer[index + 2] = (byte) color.getBlue();
             }
         }
-        return GraphicsJNI.setImage(buffer, start.x, start.y, imageBuffer, imageBuffer.length, image.getWidth(),
+
+        return graphics.setImage(buffer, start.x, start.y, imageBuffer, imageBuffer.length, image.getWidth(),
                                     image.getHeight(), false);
     }
 
@@ -179,7 +198,15 @@ public class BufferedMatrixRenderer implements AutoCloseable {
      * Closes the matrix and releases any resources held by it.
      */
     @Override
-    public void close() {
+    public void close() throws Exception {
         matrix.close();
+    }
+
+    Matrix createMatrix(Options options, RuntimeOptions runtimeOptions) {
+        return new RGBMatrixJNI(options, runtimeOptions);
+    }
+
+    Graphics createGraphics() {
+        return new Graphics();
     }
 }

@@ -1,5 +1,6 @@
 package io.vagvolgyi.rgbmatrix.jni;
 
+import io.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -22,7 +23,7 @@ class CanvasDrawTest extends MatrixTestBase {
     @Test
     void drawingUsingPreviousCanvasData() {
         assertDoesNotThrow(() -> {
-            FrameCanvasJNI canvas = rgbMatrix.createFrameCanvas();
+            FrameCanvas canvas = rgbMatrix.createFrameCanvas();
             canvas.fill(BLUE.getRed(), BLUE.getGreen(), BLUE.getBlue());
             canvas = swapAndCopy(rgbMatrix, canvas);
 

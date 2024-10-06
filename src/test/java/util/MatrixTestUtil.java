@@ -1,8 +1,8 @@
 package util;
 
 import io.vagvolgyi.rgbmatrix.jni.FontJNI;
-import io.vagvolgyi.rgbmatrix.jni.FrameCanvasJNI;
-import io.vagvolgyi.rgbmatrix.jni.RGBMatrixJNI;
+import io.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
+import io.vagvolgyi.rgbmatrix.jni.api.Matrix;
 
 import java.awt.*;
 import java.net.URL;
@@ -18,7 +18,7 @@ public class MatrixTestUtil {
     public static final byte[][] HELLO = createHelloArray();
     public static final byte[][] WORLD = createWorldArray();
 
-    public static void printMatrix(RGBMatrixJNI matrix, int xOffset, int yOffset, Color color, byte[][] bytes) {
+    public static void printMatrix(Matrix matrix, int xOffset, int yOffset, Color color, byte[][] bytes) {
         for(int y = 0; y < bytes.length; y++) {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
@@ -29,7 +29,7 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void printMatrixWithVSync(RGBMatrixJNI rgbMatrix, FrameCanvasJNI canvas, int xOffset, int yOffset, Color color, byte[][] bytes) {
+    public static void printMatrixWithVSync(Matrix rgbMatrix, FrameCanvas canvas, int xOffset, int yOffset, Color color, byte[][] bytes) {
         for(int y = 0; y < bytes.length; y++) {
             for(int x = 0; x < bytes[y].length; x++) {
                 if(bytes[y][x] == 1) {
@@ -41,7 +41,7 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void fillAndClearMatrix(RGBMatrixJNI matrix, List<Color> colors) {
+    public static void fillAndClearMatrix(Matrix matrix, List<Color> colors) {
         for(Color color : colors) {
             matrix.fill(color.getRed(), color.getGreen(), color.getBlue());
             sleepFor(300);
@@ -50,8 +50,8 @@ public class MatrixTestUtil {
         }
     }
 
-    public static void fillMatrixWithVSync(RGBMatrixJNI rgbMatrix, List<Color> colors) {
-        FrameCanvasJNI drawCanvas = rgbMatrix.createFrameCanvas();
+    public static void fillMatrixWithVSync(Matrix rgbMatrix, List<Color> colors) {
+        FrameCanvas drawCanvas = rgbMatrix.createFrameCanvas();
         for(Color color : colors) {
             drawCanvas.fill(color.getRed(), color.getGreen(), color.getBlue());
             drawCanvas = rgbMatrix.swapOnVSync(drawCanvas);
@@ -59,8 +59,8 @@ public class MatrixTestUtil {
         }
     }
 
-    public static FrameCanvasJNI swapAndCopy(RGBMatrixJNI rgbMatrix, FrameCanvasJNI newCanvas) {
-        FrameCanvasJNI oldCanvas = rgbMatrix.swapOnVSync(newCanvas);
+    public static FrameCanvas swapAndCopy(Matrix rgbMatrix, FrameCanvas newCanvas) {
+        FrameCanvas oldCanvas = rgbMatrix.swapOnVSync(newCanvas);
         oldCanvas.copyFrom(newCanvas);
 
         return oldCanvas;
@@ -89,8 +89,8 @@ public class MatrixTestUtil {
         return colors;
     }
 
-    public static void printColorGradients(RGBMatrixJNI rgbMatrix, Color[] gradients) {
-        FrameCanvasJNI canvas = rgbMatrix.createFrameCanvas();
+    public static void printColorGradients(Matrix rgbMatrix, Color[] gradients) {
+        FrameCanvas canvas = rgbMatrix.createFrameCanvas();
 
         int gradient = 0;
         for(int y = 0; y < 64; y += 4) {
