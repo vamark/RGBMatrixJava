@@ -1,8 +1,8 @@
 package util;
 
-import io.vagvolgyi.rgbmatrix.jni.FontJNI;
-import io.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
-import io.vagvolgyi.rgbmatrix.jni.api.Matrix;
+import dev.vagvolgyi.rgbmatrix.jni.FontJNI;
+import dev.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
+import dev.vagvolgyi.rgbmatrix.jni.api.Matrix;
 
 import java.awt.*;
 import java.net.URL;

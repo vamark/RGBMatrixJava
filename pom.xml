@@ -3,9 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.vagvolgyi.ledmatrix</groupId>
+    <groupId>dev.vagvolgyi.ledmatrix</groupId>
     <artifactId>RgbMatrixJavaWrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.release>8</maven.compiler.release>
@@ -14,6 +15,7 @@
         <assertj.version>3.26.3</assertj.version>
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <exec.maven.plugin.version>3.4.1</exec.maven.plugin.version>
+        <maven.install.plugin.version>3.1.3</maven.install.plugin.version>
         <surefire.plugin.version>3.5.0</surefire.plugin.version>
         <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
         <mockito.version>5.14.1</mockito.version>
@@ -107,6 +109,18 @@
                 <configuration>
                     <argLine>-Djava.library.path=${project.basedir}/target/jni-wrapper/</argLine>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${maven.install.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
