@@ -4,8 +4,13 @@ import dev.vagvolgyi.rgbmatrix.jni.model.Options;
 import dev.vagvolgyi.rgbmatrix.jni.model.RuntimeOptions;
 import dev.vagvolgyi.rgbmatrix.jni.api.FrameCanvas;
 import dev.vagvolgyi.rgbmatrix.jni.api.Matrix;
+import dev.vagvolgyi.rgbmatrix.util.LibLoader;
 
 public class RGBMatrixJNI extends CanvasJNI implements Matrix {
+    static {
+        LibLoader.loadJniLib();
+    }
+
     public RGBMatrixJNI(Options options, RuntimeOptions runtimeOptions) {
         super(createFromOptions(options, runtimeOptions));
     }

@@ -24,7 +24,8 @@ public class GraphicsJNI {
         return verticalDrawText(canvas, font, x, y, color, text, 0);
     }
 
-    public static int verticalDrawText(Canvas canvas, FontJNI font, int x, int y, Color color, String text, int kerningOffset) {
+    public static int verticalDrawText(Canvas canvas, FontJNI font, int x, int y, Color color, String text,
+                                       int kerningOffset) {
         return verticalDrawText(canvas, font, x, y, color, null, text, kerningOffset);
     }
 

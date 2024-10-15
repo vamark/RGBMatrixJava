@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * A renderer for an RGB matrix that uses a buffered approach.
@@ -28,15 +27,6 @@ public class BufferedMatrixRenderer implements AutoCloseable {
     private final Graphics graphics;
 
     private FrameCanvas buffer;
-
-    static {
-        try {
-            System.loadLibrary("rgbmatrixjni");
-        }
-        catch (UnsatisfiedLinkError e) {
-            Logger.getLogger(BufferedMatrixRenderer.class.getName()).severe("Unable to load the rgbmatrixjni library");
-        }
-    }
 
     /**
      * Constructs a BufferedMatrixRenderer and initializes the matrix with configuration from the matrix_config.properties

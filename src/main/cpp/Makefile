@@ -5,22 +5,26 @@ LIBS = -lrgbmatrix
 CXX = g++
 CXXFLAGS = -c -fPIC -Wall -std=c++17 -MMD -MP
 LDFLAGS = -shared -fPIC -lc
-OUTPUT_DIR = ../../../target/jni-wrapper
+OUTPUT_DIR = ../../../target/classes
+BUILD_DIR = ../../../target/jni
 TARGET = $(OUTPUT_DIR)/librgbmatrixjni.so
-OBJECTS = $(patsubst %.cpp,$(OUTPUT_DIR)/%.o,$(SOURCES))
+OBJECTS = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 SOURCES = $(wildcard *.cpp converter/*.cpp bridge/*.cpp)
 DEPS = $(OBJECTS:.o=.d)
 
 all: $(TARGET)
 
-$(OUTPUT_DIR):
-	mkdir -p $(OUTPUT_DIR)/converter
-	mkdir -p $(OUTPUT_DIR)/bridge
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)/converter
+	mkdir -p $(BUILD_DIR)/bridge
 
-$(OUTPUT_DIR)/%.o: %.cpp | $(OUTPUT_DIR)
+$(OUTPUT_DIR):
+	mkdir -p $(OUTPUT_DIR)
+
+$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) $< -o $@
 
-$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS) | $(OUTPUT_DIR)
 	$(CXX) $(LDFLAGS) $(LIB_DIRS) -o $@ $^ $(LIBS)
 
 clean:

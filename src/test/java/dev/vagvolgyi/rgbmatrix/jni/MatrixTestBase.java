@@ -9,10 +9,6 @@ class MatrixTestBase {
     protected static final int MATRIX_WIDTH = 64;
     protected static final int MATRIX_HEIGHT = 64;
 
-    static {
-        System.loadLibrary("rgbmatrixjni");
-    }
-
     protected RGBMatrixJNI rgbMatrix;
 
     @BeforeEach
